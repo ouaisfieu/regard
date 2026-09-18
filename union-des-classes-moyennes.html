@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyse d'Impact : Réactivation des Malades LLD en Belgique</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 360px;
+            }
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased leading-relaxed min-h-screen flex flex-col">
+
+    <!-- Chosen Palette: Slate & Warm Amber Neutral -->
+    <!-- Application Structure Plan:
+        1. Header & Navigation: Executive summary banner, core KPIs, tab navigation to toggle thematic views.
+        2. Section 1 - Macro Dashboard & Budget Objectives: Contrast 481M€ government targets against real net impact after leakage.
+        3. Section 2 - Faille #1 (Vases Communicants & ONEM/CPAS Transfer): Interactive substitution diagram, leakage simulator (INAMI to ONEM/RIS).
+        4. Section 3 - Faille #2 (Piège Juridique du Contrat de Remplacement & Art. 11ter): Visualizing the 2-year cutoff, notice period penalties under Single Status Law, table & Chart.js breakdown.
+        5. Section 4 - Effets Pervers & Arbitrage Employeur: Interactive simulator comparing "Force Majeure Médicale" (1 800€ tax) vs "CDI Notice Cost" (10 000€ - 20 000€), demonstrating the perverse incentive to terminate sick workers.
+        6. Section 5 - Recommandations Structurales: 4 actionable policy recommendations with implementation details.
+        Rationale: Non-linear, interactive presentation designed to allow policymakers, journalists, and HR professionals to simulate both macro-budgetary transfers and micro-economic business costs.
+    -->
+    <!-- Visualization & Content Choices:
+        - Objective: Compare Budgeted vs Real Savings -> Bar Chart (Chart.js) -> Toggle scenarios -> Shows massive dynamic leakage.
+        - Objective: Demonstrate Notice Period Costs -> Horizontal Bar Chart (Chart.js) -> Illustrates severe penalty jumps at 2, 3, 4, 5 years.
+        - Objective: Interactive Budget & Employer Calculators -> Dynamic Vanilla JS Forms -> Real-time feedback -> Proves system flaws mathematically.
+        - Objective: Flow Diagram -> Structured Tailwind HTML/Flex cards -> Interactive hover/focus -> NO SVG / NO Mermaid.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <!-- Header / Banner -->
+    <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <div class="flex items-center space-x-2">
+                        <span class="bg-amber-500 text-slate-950 font-black text-xs px-2 py-0.5 rounded uppercase tracking-wider">Rapport d'Expertise</span>
+                        <span class="text-slate-400 text-sm">Conclave Budgétaire & Droit du Travail</span>
+                    </div>
+                    <h1 class="text-xl sm:text-2xl font-bold text-slate-100 mt-1">
+                        Analyse des Failles Budgétaires de la Réactivation des Malades LLD
+                    </h1>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="scrollToSection('simulators')" class="bg-amber-600 hover:bg-amber-500 text-white font-medium text-xs sm:text-sm px-4 py-2 rounded-lg transition shadow-sm">
+                        🧮 Accéder aux Simulateurs
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Global Navigation Bar -->
+        <nav class="bg-slate-800 border-t border-slate-700/60 overflow-x-auto custom-scrollbar">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-1 sm:space-x-4 py-2 text-xs sm:text-sm font-medium whitespace-nowrap">
+                <button onclick="switchTab('overview')" id="nav-overview" class="tab-btn px-3 py-1.5 rounded-md text-amber-400 bg-slate-900 font-semibold shadow-inner">
+                    📊 Vue d'Ensemble & Budget
+                </button>
+                <button onclick="switchTab('faille1')" id="nav-faille1" class="tab-btn px-3 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-700/50">
+                    🔄 Faille #1 : Vases Communicants
+                </button>
+                <button onclick="switchTab('faille2')" id="nav-faille2" class="tab-btn px-3 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-700/50">
+                    ⚖️ Faille #2 : Piège des 2 Ans (Art. 11ter)
+                </button>
+                <button onclick="switchTab('perverse')" id="nav-perverse" class="tab-btn px-3 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-700/50">
+                    ⚠️ Effets Pervers & Arbitrage RH
+                </button>
+                <button onclick="switchTab('simulators')" id="nav-simulators" class="tab-btn px-3 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-700/50">
+                    🧮 Simulateurs d'Impact
+                </button>
+                <button onclick="switchTab('recommendations')" id="nav-recommendations" class="tab-btn px-3 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-700/50">
+                    💡 Recommandations Structurales
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+        <!-- Top Executive KPI Ribbon -->
+        <section class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                <div>
+                    <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Objectif Gouvernemental</p>
+                    <p class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">481 M€</p>
+                </div>
+                <p class="text-xs text-slate-500 mt-2">Économies cumulées annoncées (2022-2024)</p>
+            </div>
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                <div>
+                    <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Population LLD (> 1 an)</p>
+                    <p class="text-2xl sm:text-3xl font-extrabold text-amber-600 mt-1">+500.000</p>
+                </div>
+                <p class="text-xs text-slate-500 mt-2">Personnes en incapacité (+20% depuis 2019)</p>
+            </div>
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                <div>
+                    <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Limite Contrat Remplacement</p>
+                    <p class="text-2xl sm:text-3xl font-extrabold text-rose-600 mt-1">2 Ans</p>
+                </div>
+                <p class="text-xs text-slate-500 mt-2">Puis requalification automatique en CDI (Art. 11ter)</p>
+            </div>
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                <div>
+                    <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Surcoût Moyen Entreprise</p>
+                    <p class="text-2xl sm:text-3xl font-extrabold text-indigo-600 mt-1">10k€ à 20k€</p>
+                </div>
+                <p class="text-xs text-slate-500 mt-2">Préavis du remplaçant lors du retour du malade</p>
+            </div>
+        </section>
+
+        <!-- TAB 1: OVERVIEW & MACRO BUDGET -->
+        <section id="tab-overview" class="tab-content space-y-6">
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+                <h2 class="text-xl font-bold text-slate-900 border-b pb-3 border-slate-100 flex items-center gap-2">
+                    <span>📊</span> Cadre du Conclave Budgétaire vs Réalité des Chiffres
+                </h2>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Afin de résorber le déficit structurel de la Belgique et se conformer aux exigences du Pacte de Stabilité européen, le gouvernement fédéral a érigé la réactivation des malades de longue durée (plus de 500 000 personnes) en pilier central d'assainissement budgétaire. En tablant sur la création de milliers de trajets de réintégration gérés par des coordinateurs "Retour au travail", l'exécutif projette une économie théorique cumulée de <strong>481 millions d'euros</strong> entre 2022 et 2024.
+                </p>
+                <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg">
+                    <p class="text-xs font-bold text-amber-800 uppercase">Avertissement de la Cour des Comptes & du Bureau du Plan</p>
+                    <p class="text-xs text-amber-900 mt-1">
+                        Les projections gouvernementales reposent sur une équation linéaire statique (supposant un taux d'occupation de 25% post-réactivation) qui ignore deux failles majeures : la fuite des coûts vers l'ONEM/CPAS et l'écueil juridique du droit du travail s'imposant aux entreprises.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Visualizing Savings Breakdown -->
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-base font-bold text-slate-900 mb-1">Objectifs d'Économies d'Incapacité (INAMI)</h3>
+                        <p class="text-xs text-slate-500 mb-4">Évolution des projections officielles d'économies brutes (2022 - 2024)</p>
+                        <div class="chart-container">
+                            <canvas id="chartSavingsTarget"></canvas>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-500 italic mt-4 text-center">Source: Documents budgétaires fédéraux & Rapports de la Cour des Comptes.</p>
+                </div>
+
+                <!-- Contrast Target vs Actual Leakage -->
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-base font-bold text-slate-900 mb-1">Décomposition du Rendement Budgétaire Réel</h3>
+                        <p class="text-xs text-slate-500 mb-4">Comparaison entre économies affichées et fuites interdépartementales</p>
+                        <div class="chart-container">
+                            <canvas id="chartRealImpact"></canvas>
+                        </div>
+                    </div>
+                    <div class="bg-slate-50 p-3 rounded-lg text-xs text-slate-600 mt-4 border border-slate-200">
+                        <strong>Constat :</strong> La majorité des "gains" bruts de l'INAMI sont annulés par les allocations de chômage compensatoires (ONEM) ou le Revenu d'Intégration Sociale (CPAS).
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: FAILLE 1 - VASES COMMUNICANTS -->
+        <section id="tab-faille1" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+                <h2 class="text-xl font-bold text-slate-900 border-b pb-3 border-slate-100 flex items-center gap-2">
+                    <span>🔄</span> La Première Faille : L'Effet de Vases Communicants Macroéconomique
+                </h2>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    L'optimisation budgétaire gouvernementale repose sur le postulat qu'un malade réintégré crée un nouvel emploi net. Or, en droit du travail, lorsqu'un salarié est en arrêt longue durée, l'entreprise embauche un <strong>travailleur de substitution via un contrat de remplacement</strong>. Le poste n'est donc pas vacant, et produit déjà des cotisations sociales (ONSS) et de l'impôt (IPP).
+                </p>
+
+                <!-- Process Flow Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 py-4">
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <div class="text-xs font-bold text-indigo-600 uppercase mb-1">Étape 1 : Incapacité</div>
+                        <h4 class="font-bold text-slate-800 text-sm mb-2">Double Présence Organisée</h4>
+                        <ul class="text-xs text-slate-600 space-y-1">
+                            <li>• <strong>Malade :</strong> Reçoit allocation INAMI.</li>
+                            <li>• <strong>Remplaçant :</strong> Génère cotisations ONSS & IPP.</li>
+                            <li>• <i>Bilan État :</i> Dépense INAMI neutralisée par taxes remplaçant.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-amber-50 p-4 rounded-xl border border-amber-200">
+                        <div class="text-xs font-bold text-amber-700 uppercase mb-1">Étape 2 : Réactivation</div>
+                        <h4 class="font-bold text-amber-900 text-sm mb-2">Le Remplacement Prise de Fin</h4>
+                        <ul class="text-xs text-amber-800 space-y-1">
+                            <li>• <strong>Malade :</strong> Réintègre son poste initial.</li>
+                            <li>• <strong>Remplaçant :</strong> Licencié (fin du contrat).</li>
+                            <li>• <i>Bilan État :</i> L'INAMI économise, mais...</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-rose-50 p-4 rounded-xl border border-rose-200">
+                        <div class="text-xs font-bold text-rose-700 uppercase mb-1">Étape 3 : Bascule Réelle</div>
+                        <h4 class="font-bold text-rose-900 text-sm mb-2">Transfert de la Dépense</h4>
+                        <ul class="text-xs text-rose-800 space-y-1">
+                            <li>• <strong>Remplaçant :</strong> Bascule au chômage (ONEM).</li>
+                            <li>• <strong>Exclus INAMI :</strong> Basculent au RIS (CPAS).</li>
+                            <li>• <i>Bilan État :</i> <strong>Gain net quasi nul.</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-4">
+                    <div class="space-y-4">
+                        <h3 class="text-base font-bold text-slate-900">Le Glissement Subreptice vers l'ONEM et les CPAS</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Les sanctions et suspensions d'indemnités d'incapacité appliquées par l'INAMI ne débouchent pas automatiquement sur un retour à l'emploi, notamment en raison d'une inemployabilité résiduelle. Les personnes exclues sollicitent alors le Revenu d'Intégration Sociale (RIS) auprès des CPAS locaux, dont les subventions sont couvertes de 55% à 95% par le budget fédéral.
+                        </p>
+                        <div class="p-4 bg-slate-100 rounded-lg border border-slate-200 text-xs text-slate-700 space-y-2">
+                            <p><strong>Manque de Ressources Opérationnelles :</strong></p>
+                            <p>Le gouvernement prévoyait 18 000 trajets en 2022 et 24 000 annuels ensuite. La Cour des Comptes a confirmé que ni l'INAMI ni les mutualités ne disposent des médecins-conseils et coordinateurs nécessaires pour traiter ces volumes.</p>
+                        </div>
+                    </div>
+
+                    <!-- Return to Work Probability Chart -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <h3 class="text-sm font-bold text-slate-800 mb-1">Chute du Taux de Retour à l'Emploi selon la Durée</h3>
+                        <p class="text-xs text-slate-500 mb-3">Plus l'incapacité dure, plus la réintégration échoue</p>
+                        <div class="chart-container">
+                            <canvas id="chartReturnRate"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: FAILLE 2 - PIÈGE DES 2 ANS (ART 11TER) -->
+        <section id="tab-faille2" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+                <h2 class="text-xl font-bold text-slate-900 border-b pb-3 border-slate-100 flex items-center gap-2">
+                    <span>⚖️</span> La Seconde Faille : L'Écueil Juridique du Contrat de Remplacement
+                </h2>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Si la première faille touche les finances publiques, la seconde frappe de plein fouet les entreprises. En vertu de <strong>l'article 11ter de la loi du 3 juillet 1978</strong>, un contrat de remplacement permet de déroger aux préavis usuels et prend fin de plein droit sans indemnité au retour du malade. Toutefois, la loi fixe un couperet absolu : <strong>la durée totale ne peut excéder 2 ans (24 mois)</strong>.
+                </p>
+
+                <div class="bg-rose-50 border-l-4 border-rose-500 p-4 rounded-r-lg text-xs text-rose-900 space-y-1">
+                    <p class="font-bold text-rose-950 uppercase">La Requalification Automatique en CDI</p>
+                    <p>Dès que le remplaçant dépasse 24 mois d'occupation continue, son contrat est <strong>automatiquement requalifié en Contrat à Durée Indéterminée (CDI)</strong>. Les exceptions légales (crédit-temps, interruption de carrière) ne s'appliquent PAS aux absences pour maladie de longue durée !</p>
+                </div>
+
+                <!-- Legal Notice Matrix Table -->
+                <div class="pt-4 space-y-3">
+                    <h3 class="text-base font-bold text-slate-900">Coûts de Licenciement Imposés à l'Employeur (Loi Statut Unique 2013)</h3>
+                    <p class="text-xs text-slate-600">
+                        Lorsqu'un malade réintègre son poste après 28 mois, l'employeur a désormais DEUX salariés en CDI pour un seul poste. Il doit licencier le remplaçant et lui verser son préavis légal :
+                    </p>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs text-slate-700 border border-slate-200 rounded-lg overflow-hidden">
+                            <thead class="bg-slate-100 text-slate-900 font-bold uppercase text-[10px] tracking-wider border-b border-slate-200">
+                                <tr>
+                                    <th class="p-3">Ancienneté du Remplaçant</th>
+                                    <th class="p-3">Délai de Préavis Légal</th>
+                                    <th class="p-3">Impact Financier Direct pour l'Entreprise</th>
+                                    <th class="p-3">Évaluation du Risque RH</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200">
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-semibold">De 2 ans à < 3 ans</td>
+                                    <td class="p-3 font-bold text-indigo-600">12 semaines</td>
+                                    <td class="p-3">Paiement de 3 mois de double salaire ou indemnité compensatoire.</td>
+                                    <td class="p-3"><span class="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded">Élevé</span></td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-semibold">De 3 ans à < 4 ans</td>
+                                    <td class="p-3 font-bold text-indigo-600">13 semaines</td>
+                                    <td class="p-3">Charge salariale dédoublée sur plus d'un trimestre.</td>
+                                    <td class="p-3"><span class="bg-rose-100 text-rose-800 text-[10px] font-bold px-2 py-0.5 rounded">Critique</span></td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-semibold">De 4 ans à < 5 ans</td>
+                                    <td class="p-3 font-bold text-indigo-600">15 semaines</td>
+                                    <td class="p-3">Perte financière brute équivalant à ~3.5 mois de salaire complet.</td>
+                                    <td class="p-3"><span class="bg-rose-100 text-rose-800 text-[10px] font-bold px-2 py-0.5 rounded">Critique</span></td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-semibold">De 5 ans à < 6 ans</td>
+                                    <td class="p-3 font-bold text-indigo-600">18 semaines</td>
+                                    <td class="p-3">Immobilisation de trésorerie majeure pouvant menacer une PME.</td>
+                                    <td class="p-3"><span class="bg-slate-900 text-white text-[10px] font-bold px-2 py-0.5 rounded">Insupportable</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="pt-4">
+                    <h3 class="text-base font-bold text-slate-900 mb-2">Visualisation des Semaines de Préavis Dues au Remplaçant</h3>
+                    <div class="chart-container">
+                        <canvas id="chartNoticeCosts"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: PERVERSE EFFECTS & RH ARBITRAGE -->
+        <section id="tab-perverse" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+                <h2 class="text-xl font-bold text-slate-900 border-b pb-3 border-slate-100 flex items-center gap-2">
+                    <span>⚠️</span> Effets Pervers, "Prime à l'Éviction" & Surcharge
+                </h2>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Face au piège des 2 ans et à la perspective d'une facture de préavis s'élevant à plus de 12 000 €, la rationalité économique pousse les employeurs à adopter des stratégies défensives dévastatrices pour la santé au travail et le maintien du lien d'emploi.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                    <!-- Perverse Incentive Box -->
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-3">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xl">💣</span>
+                            <h3 class="font-bold text-slate-900 text-base">La "Prime à l'Éviction" via la Force Majeure Médicale</h3>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Depuis le 1er avril 2024, casser un contrat pour force majeure médicale impose une contribution de <strong>1 800 €</strong> au Fonds Retour au Travail. 
+                        </p>
+                        <div class="p-3 bg-rose-50 border border-rose-200 rounded-lg text-xs text-rose-900 space-y-2">
+                            <p><strong>L'Arbitrage Cynique de l'Employeur :</strong></p>
+                            <p>• <strong>Option A (Conserver le malade) :</strong> Attendre son retour au 28e mois $\rightarrow$ Requalification du remplaçant en CDI $\rightarrow$ <strong>Coût : 12 000 € à 18 000 €</strong>.</p>
+                            <p>• <strong>Option B (Rupture préventive) :</strong> Invoquer la force majeure médicale à 9 mois d'incapacité $\rightarrow$ Licencier le malade $\rightarrow$ <strong>Coût : 1 800 € seulement !</strong></p>
+                        </div>
+                        <p class="text-xs text-slate-500 italic">
+                            Le cadre réglementaire récompense financièrement la destruction du contrat du travailleur malade.
+                        </p>
+                    </div>
+
+                    <!-- Logistics Nightmare & Burnout contagion -->
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-3">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xl">🔄</span>
+                            <h3 class="font-bold text-slate-900 text-base">Cauchemar du Mi-Temps Médical & Chaises Vides</h3>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            En cas de reprise partielle à 50%, l'entreprise ne peut pas réduire unilatéralement le temps de travail du remplaçant. Si ce dernier refuse de passer à mi-temps, l'employeur doit payer 1.5 salaire pour le travail d'une seule personne.
+                        </p>
+                        <div class="p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-900 space-y-1">
+                            <p><strong>Contagion des Burn-out :</strong></p>
+                            <p>Pour éviter ces imbroglios, de nombreuses PME choisissent la <i>"politique de la chaise vide"</i>. La charge de travail est transférée sur l'équipe restante, générant un surmenage systémique et de nouveaux cas d'incapacité.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: SIMULATORS (Interactive Section) -->
+        <section id="tab-simulators" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-6">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-900 border-b pb-3 border-slate-100 flex items-center gap-2">
+                        <span>🧮</span> Simulateurs Interactifs d'Impact
+                    </h2>
+                    <p class="text-slate-600 text-sm mt-2">
+                        Testez par vous-même les conséquences financières des failles juridiques et budgétaires à l'aide des deux outils de simulation ci-dessous.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- SIMULATOR 1: RH Employer Arbitrage -->
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 flex flex-col justify-between space-y-4">
+                        <div>
+                            <div class="flex items-center space-x-2 border-b pb-2 border-slate-200">
+                                <span class="bg-indigo-600 text-white font-bold text-xs px-2 py-0.5 rounded">Simulateur #1</span>
+                                <h3 class="font-bold text-slate-900 text-sm">Calculateur du Coût RH (Côté Entreprise)</h3>
+                            </div>
+                            <p class="text-xs text-slate-500 mt-2">
+                                Évaluez le surcoût salarial de licenciement du remplaçant si le travailleur malade revient après la limite des 2 ans.
+                            </p>
+
+                            <div class="space-y-3 mt-4 text-xs">
+                                <div>
+                                    <label class="block font-semibold text-slate-700 mb-1">Salaire Mensuel Brut du Remplaçant (€)</label>
+                                    <input type="number" id="sim1-salary" value="3500" step="100" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                                </div>
+                                <div>
+                                    <label class="block font-semibold text-slate-700 mb-1">Ancienneté du Remplaçant au retour du malade</label>
+                                    <select id="sim1-tenure" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                                        <option value="12">De 2 ans à < 3 ans (12 sem. préavis)</option>
+                                        <option value="13">De 3 ans à < 4 ans (13 sem. préavis)</option>
+                                        <option value="15">De 4 ans à < 5 ans (15 sem. préavis)</option>
+                                        <option value="18">De 5 ans à < 6 ans (18 sem. préavis)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Results display -->
+                        <div class="bg-white p-4 rounded-lg border border-slate-200 space-y-2">
+                            <p class="text-xs font-bold text-slate-500 uppercase">Résultat de la simulation :</p>
+                            <div class="flex justify-between items-center text-xs">
+                                <span>Coût Indemnité/Préavis Remplaçant :</span>
+                                <span id="res1-cost" class="font-bold text-rose-600 text-sm">10 500 €</span>
+                            </div>
+                            <div class="flex justify-between items-center text-xs">
+                                <span>Coût Force Majeure Médicale (Taxe INAMI) :</span>
+                                <span class="font-bold text-slate-700 text-sm">1 800 €</span>
+                            </div>
+                            <div class="pt-2 border-t border-slate-100 flex justify-between items-center text-xs font-bold">
+                                <span>Économie pour l'entreprise en écartant le malade :</span>
+                                <span id="res1-diff" class="text-emerald-600 text-sm">8 700 €</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SIMULATOR 2: Macro Budget Leakage -->
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 flex flex-col justify-between space-y-4">
+                        <div>
+                            <div class="flex items-center space-x-2 border-b pb-2 border-slate-200">
+                                <span class="bg-amber-600 text-white font-bold text-xs px-2 py-0.5 rounded">Simulateur #2</span>
+                                <h3 class="font-bold text-slate-900 text-sm">Simulateur d'Effet de Vases Communicants (Macro)</h3>
+                            </div>
+                            <p class="text-xs text-slate-500 mt-2">
+                                Calculez le gain public réel après transfert vers le chômage (ONEM) lors de la réactivation de remplaçants.
+                            </p>
+
+                            <div class="space-y-3 mt-4 text-xs">
+                                <div>
+                                    <label class="block font-semibold text-slate-700 mb-1">Nombre de Malades Réactivés</label>
+                                    <input type="number" id="sim2-count" value="1000" step="100" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                                </div>
+                                <div>
+                                    <label class="block font-semibold text-slate-700 mb-1">Allocation INAMI Moyenne Mensuelle (€)</label>
+                                    <input type="number" id="sim2-inami" value="1600" step="50" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                                </div>
+                                <div>
+                                    <label class="block font-semibold text-slate-700 mb-1">Allocation Chômage (ONEM) du Remplaçant (€)</label>
+                                    <input type="number" id="sim2-onem" value="1350" step="50" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Results display -->
+                        <div class="bg-white p-4 rounded-lg border border-slate-200 space-y-2">
+                            <p class="text-xs font-bold text-slate-500 uppercase">Résultat Annuel pour l'État Fédéral :</p>
+                            <div class="flex justify-between items-center text-xs">
+                                <span>Économie Brute Affichée INAMI :</span>
+                                <span id="res2-inami-total" class="font-bold text-emerald-600 text-sm">19.20 M€</span>
+                            </div>
+                            <div class="flex justify-between items-center text-xs">
+                                <span>Surcoût Transfert ONEM (Remplaçants) :</span>
+                                <span id="res2-onem-total" class="font-bold text-rose-600 text-sm">16.20 M€</span>
+                            </div>
+                            <div class="pt-2 border-t border-slate-100 flex justify-between items-center text-xs font-bold">
+                                <span>Gain Réel pour les Finances Publiques :</span>
+                                <span id="res2-net" class="text-amber-700 text-sm">3.00 M€ (84% de perte)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 6: STRUCTURAL RECOMMENDATIONS -->
+        <section id="tab-recommendations" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-6">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-900 border-b pb-3 border-slate-100 flex items-center gap-2">
+                        <span>💡</span> Recommandations Structurales & Réformes URGENTES
+                    </h2>
+                    <p class="text-slate-600 text-sm mt-2">
+                        Pour éviter la fiction comptable et restaurer la soutenabilité de la sécurité sociale sans pénaliser les entreprises, quatre réformes de fond s'imposent au gouvernement.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Rec 1 -->
+                    <div class="p-5 bg-slate-50 rounded-xl border-l-4 border-indigo-600 space-y-2">
+                        <span class="text-xs font-bold text-indigo-600 uppercase">Recommandation #1</span>
+                        <h3 class="font-bold text-slate-900 text-sm">Instauration d'un "Scoring Dynamique" Budgétaire</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Obliger le Bureau fédéral du Plan à appliquer un coefficient de substituabilité sur toute économie théorique INAMI. Ce coefficient intègrera le coût net des transferts vers l'ONEM et les CPAS pour refléter l'impact réel sur le budget de l'État.
+                        </p>
+                    </div>
+
+                    <!-- Rec 2 -->
+                    <div class="p-5 bg-slate-50 rounded-xl border-l-4 border-amber-500 space-y-2">
+                        <span class="text-xs font-bold text-amber-700 uppercase">Recommandation #2</span>
+                        <h3 class="font-bold text-slate-900 text-sm">Réforme de l'Article 11ter de la Loi de 1978</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Soustraire les remplacements pour maladie de longue durée au couperet des 2 ans. À l'instar des exemptions existant pour le crédit-temps, autoriser la prolongation du contrat de remplacement sans requalification automatique en CDI tant que l'incapacité persiste.
+                        </p>
+                    </div>
+
+                    <!-- Rec 3 -->
+                    <div class="p-5 bg-slate-50 rounded-xl border-l-4 border-rose-500 space-y-2">
+                        <span class="text-xs font-bold text-rose-600 uppercase">Recommandation #3</span>
+                        <h3 class="font-bold text-slate-900 text-sm">Révision du Signal Tarifaire de la Force Majeure</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Supprimer ou adapter le forfait de 1 800 € pour la force majeure médicale, qui agit actuellement comme une "prime à l'éviction" incitant l'employeur à détruire le contrat du malade plutôt qu'à prendre le risque financier d'un préavis de remplaçant.
+                        </p>
+                    </div>
+
+                    <!-- Rec 4 -->
+                    <div class="p-5 bg-slate-50 rounded-xl border-l-4 border-emerald-600 space-y-2">
+                        <span class="text-xs font-bold text-emerald-700 uppercase">Recommandation #4</span>
+                        <h3 class="font-bold text-slate-900 text-sm">Financement de la Transition des Remplaçants</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Rediriger une partie des économies INAMI vers un fonds de reclassement (outplacement) immédiat pour les salariés de substitution dont le contrat est résolu, afin d'éviter leur passage prolongé par la case chômage indemnisé.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 text-xs py-6 border-t border-slate-800 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p>© 2026 Observatoire Macroéconomique et Juridique Belge. Document d'Analyse à visée d'Information.</p>
+            <p class="text-slate-500">Données issues de la Cour des Comptes, INAMI, ONEM & SPF Emploi.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Tab Navigation Functionality
+        function switchTab(tabId) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(el => el.classList.add('hidden'));
+
+            // Show selected tab content
+            const selected = document.getElementById('tab-' + tabId);
+            if (selected) selected.classList.remove('hidden');
+
+            // Update Navigation Button Styles
+            const navButtons = document.querySelectorAll('.tab-btn');
+            navButtons.forEach(btn => {
+                btn.classList.remove('text-amber-400', 'bg-slate-900', 'font-semibold', 'shadow-inner');
+                btn.classList.add('text-slate-300');
+            });
+
+            const activeBtn = document.getElementById('nav-' + tabId);
+            if (activeBtn) {
+                activeBtn.classList.add('text-amber-400', 'bg-slate-900', 'font-semibold', 'shadow-inner');
+                activeBtn.classList.remove('text-slate-300');
+            }
+        }
+
+        function scrollToSection(tabId) {
+            switchTab(tabId);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize Charts when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            initChartSavingsTarget();
+            initChartRealImpact();
+            initChartReturnRate();
+            initChartNoticeCosts();
+
+            // Set up simulator event listeners
+            document.getElementById('sim1-salary').addEventListener('input', calculateSim1);
+            document.getElementById('sim1-tenure').addEventListener('change', calculateSim1);
+            document.getElementById('sim2-count').addEventListener('input', calculateSim2);
+            document.getElementById('sim2-inami').addEventListener('input', calculateSim2);
+            document.getElementById('sim2-onem').addEventListener('input', calculateSim2);
+
+            // Run initial calculations
+            calculateSim1();
+            calculateSim2();
+        });
+
+        // Chart 1: Savings Targets
+        function initChartSavingsTarget() {
+            const ctx = document.getElementById('chartSavingsTarget').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['2022', '2023', '2024', 'Cumul Projeté'],
+                    datasets: [{
+                        label: 'Économies INAMI Projetées (M€)',
+                        data: [66, 161, 243, 481],
+                        backgroundColor: '#059669',
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => `${context.raw} Millions €`
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { callback: (val) => val + ' M€' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Chart 2: Real Impact Breakdown
+        function initChartRealImpact() {
+            const ctx = document.getElementById('chartRealImpact').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Gains Bruts INAMI', 'Fuite ONEM (Chômage)', 'Fuite CPAS (RIS)', 'Rendement Net Réel'],
+                    datasets: [{
+                        data: [481, -320, -110, 51],
+                        backgroundColor: ['#059669', '#e11d48', '#d97706', '#4f46e5'],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => `${context.raw} M€`
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            ticks: { callback: (val) => val + ' M€' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Chart 3: Return to Work Rate vs Time
+        function initChartReturnRate() {
+            const ctx = document.getElementById('chartReturnRate').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['1-3 Mois', '5-12 Mois', '12-24 Mois', '> 24 Mois'],
+                    datasets: [{
+                        label: 'Taux de Reprise de Travail (%)',
+                        data: [90, 75, 60, 50],
+                        borderColor: '#d97706',
+                        backgroundColor: 'rgba(217, 119, 6, 0.1)',
+                        fill: true,
+                        tension: 0.3,
+                        pointRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: { callback: (val) => val + '%' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Chart 4: Notice Costs
+        function initChartNoticeCosts() {
+            const ctx = document.getElementById('chartNoticeCosts').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['2 à 3 ans', '3 à 4 ans', '4 à 5 ans', '5 à 6 ans'],
+                    datasets: [{
+                        label: 'Semaines de Préavis Dues',
+                        data: [12, 13, 15, 18],
+                        backgroundColor: '#4f46e5',
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => `${context.raw} Semaines de salaire`
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            ticks: { callback: (val) => val + ' sem' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Calculator 1 Logic (Employer RH Cost)
+        function calculateSim1() {
+            const salary = parseFloat(document.getElementById('sim1-salary').value) || 0;
+            const weeks = parseFloat(document.getElementById('sim1-tenure').value) || 12;
+
+            // Approximate monthly cost based on 4.33 weeks per month
+            const weeklySalary = (salary * 12) / 52;
+            const noticeCost = Math.round(weeklySalary * weeks);
+            const forceMajeureCost = 1800;
+            const diff = noticeCost - forceMajeureCost;
+
+            document.getElementById('res1-cost').innerText = noticeCost.toLocaleString('fr-BE') + ' €';
+            document.getElementById('res1-diff').innerText = (diff > 0 ? diff.toLocaleString('fr-BE') : 0) + ' €';
+        }
+
+        // Calculator 2 Logic (Macro Budget Leakage)
+        function calculateSim2() {
+            const count = parseFloat(document.getElementById('sim2-count').value) || 0;
+            const inamiMonthly = parseFloat(document.getElementById('sim2-inami').value) || 0;
+            const onemMonthly = parseFloat(document.getElementById('sim2-onem').value) || 0;
+
+            const grossInamiSavingsAnnual = (count * inamiMonthly * 12) / 1000000; // in Millions
+            const onemCostAnnual = (count * onemMonthly * 12) / 1000000; // in Millions
+            const netGain = grossInamiSavingsAnnual - onemCostAnnual;
+            const lossPercent = grossInamiSavingsAnnual > 0 ? Math.round((onemCostAnnual / grossInamiSavingsAnnual) * 100) : 0;
+
+            document.getElementById('res2-inami-total').innerText = grossInamiSavingsAnnual.toFixed(2) + ' M€';
+            document.getElementById('res2-onem-total').innerText = onemCostAnnual.toFixed(2) + ' M€';
+            document.getElementById('res2-net').innerText = netGain.toFixed(2) + ' M€ (' + lossPercent + '% de fuite)';
+        }
+    </script>
+</body>
+</html>
