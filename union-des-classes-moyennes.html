@@ -3,7 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analyse d'Impact : Réactivation des Malades LLD en Belgique</title>
+    <title>Malades de longue durée en Belgique : budget, contrats de remplacement et réintégration</title>
+
+    <meta name="description" content="Analyse documentée des enjeux budgétaires, juridiques et sociaux liés à la réintégration des malades de longue durée en Belgique : INAMI, ONEM, CPAS, contrats de remplacement, article 11ter et simulateurs d'impact.">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="author" content="Observatoire Macroéconomique et Juridique Belge">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="application-name" content="Analyse des malades de longue durée en Belgique">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="fr_BE">
+    <meta property="og:title" content="Malades de longue durée en Belgique : budget, contrats de remplacement et réintégration">
+    <meta property="og:description" content="Analyse des mécanismes budgétaires, des contrats de remplacement, des effets RH et des pistes de réforme concernant la réintégration des malades de longue durée en Belgique.">
+    <meta property="og:site_name" content="Observatoire Macroéconomique et Juridique Belge">
+
+    <!-- X / Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Malades de longue durée en Belgique : budget, contrats de remplacement et réintégration">
+    <meta name="twitter:description" content="Analyse des enjeux budgétaires, juridiques et sociaux de la réintégration des malades de longue durée en Belgique.">
+
+    <!-- Structured data: WebPage + Article -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "#webpage",
+          "inLanguage": "fr-BE",
+          "name": "Malades de longue durée en Belgique : budget, contrats de remplacement et réintégration",
+          "description": "Analyse des enjeux budgétaires, juridiques et sociaux liés à la réintégration des malades de longue durée en Belgique.",
+          "isPartOf": {"@type": "WebSite", "name": "Observatoire Macroéconomique et Juridique Belge"},
+          "about": [
+            {"@type": "Thing", "name": "Maladie de longue durée"},
+            {"@type": "Thing", "name": "Réintégration professionnelle"},
+            {"@type": "Thing", "name": "Sécurité sociale belge"},
+            {"@type": "Thing", "name": "INAMI"},
+            {"@type": "Thing", "name": "ONEM"},
+            {"@type": "Thing", "name": "CPAS"},
+            {"@type": "Thing", "name": "Contrat de remplacement"},
+            {"@type": "Thing", "name": "Article 11ter de la loi du 3 juillet 1978"}
+          ],
+          "keywords": "malades longue durée Belgique, réintégration, retour au travail, INAMI, ONEM, CPAS, contrat de remplacement, article 11ter, sécurité sociale, budget belge"
+        },
+        {
+          "@type": "Article",
+          "@id": "#article",
+          "headline": "Malades de longue durée en Belgique : budget, contrats de remplacement et réintégration",
+          "description": "Analyse des mécanismes budgétaires, juridiques et organisationnels autour de la réintégration des malades de longue durée en Belgique.",
+          "inLanguage": "fr-BE",
+          "author": {"@type": "Organization", "name": "Observatoire Macroéconomique et Juridique Belge"},
+          "publisher": {"@type": "Organization", "name": "Observatoire Macroéconomique et Juridique Belge"},
+          "mainEntityOfPage": {"@id": "#webpage"},
+          "articleSection": [
+            "Budget et finances publiques",
+            "Contrats de remplacement",
+            "Droit du travail",
+            "Effets RH",
+            "Simulateurs d'impact",
+            "Pistes de réforme"
+          ]
+        }
+      ]
+    }
+    </script>
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chart.js CDN -->
@@ -37,6 +102,7 @@
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased leading-relaxed min-h-screen flex flex-col">
+    <a href="#contenu-principal" class="sr-only focus:not-sr-only focus:fixed focus:z-[100] focus:top-2 focus:left-2 focus:bg-white focus:text-slate-900 focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg">Aller au contenu principal</a>
 
     <!-- Chosen Palette: Slate & Warm Amber Neutral -->
     <!-- Application Structure Plan:
@@ -65,7 +131,7 @@
                         <span class="bg-amber-500 text-slate-950 font-black text-xs px-2 py-0.5 rounded uppercase tracking-wider">Rapport d'Expertise</span>
                         <span class="text-slate-400 text-sm">Conclave Budgétaire & Droit du Travail</span>
                     </div>
-                    <h1 class="text-xl sm:text-2xl font-bold text-slate-100 mt-1">
+                    <h1 id="page-title" class="text-xl sm:text-2xl font-bold text-slate-100 mt-1">
                         Analyse des Failles Budgétaires de la Réactivation des Malades LLD
                     </h1>
                 </div>
@@ -80,30 +146,44 @@
         <!-- Global Navigation Bar -->
         <nav class="bg-slate-800 border-t border-slate-700/60 overflow-x-auto custom-scrollbar">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-1 sm:space-x-4 py-2 text-xs sm:text-sm font-medium whitespace-nowrap">
-                <button onclick="switchTab('overview')" id="nav-overview" class="tab-btn px-3 py-1.5 rounded-md text-amber-400 bg-slate-900 font-semibold shadow-inner">
+                <a href="#tab-overview" onclick="switchTab('overview'); return false;" id="nav-overview" class="tab-btn px-3 py-1.5 rounded-md text-amber-400 bg-slate-900 font-semibold shadow-inner" aria-controls="tab-overview" aria-current="page">
                     📊 Vue d'Ensemble & Budget
-                </button>
-                <button onclick="switchTab('faille1')" id="nav-faille1" class="tab-btn px-3 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-700/50">
+                </a>
+                <a href="#tab-faille1" onclick="switchTab('faille1'); return false;" id="nav-faille1" class="tab-btn px-3 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-700/50">
                     🔄 Faille #1 : Vases Communicants
-                </button>
-                <button onclick="switchTab('faille2')" id="nav-faille2" class="tab-btn px-3 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-700/50">
+                </a>
+                <a href="#tab-faille2" onclick="switchTab('faille2'); return false;" id="nav-faille2" class="tab-btn px-3 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-700/50">
                     ⚖️ Faille #2 : Piège des 2 Ans (Art. 11ter)
-                </button>
-                <button onclick="switchTab('perverse')" id="nav-perverse" class="tab-btn px-3 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-700/50">
+                </a>
+                <a href="#tab-perverse" onclick="switchTab('perverse'); return false;" id="nav-perverse" class="tab-btn px-3 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-700/50">
                     ⚠️ Effets Pervers & Arbitrage RH
-                </button>
-                <button onclick="switchTab('simulators')" id="nav-simulators" class="tab-btn px-3 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-700/50">
+                </a>
+                <a href="#tab-simulators" onclick="switchTab('simulators'); return false;" id="nav-simulators" class="tab-btn px-3 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-700/50">
                     🧮 Simulateurs d'Impact
-                </button>
-                <button onclick="switchTab('recommendations')" id="nav-recommendations" class="tab-btn px-3 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-700/50">
+                </a>
+                <a href="#tab-recommendations" onclick="switchTab('recommendations'); return false;" id="nav-recommendations" class="tab-btn px-3 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-700/50">
                     💡 Recommandations Structurales
-                </button>
+                </a>
             </div>
         </nav>
+            <aside class="bg-white border border-slate-200 rounded-xl p-4 text-xs text-slate-600" aria-label="Périmètre de l’analyse">
+                <strong class="text-slate-900">Périmètre :</strong>
+                Belgique — réintégration et retour au travail des personnes en incapacité de longue durée,
+                sécurité sociale, droit du travail et impacts pour les entreprises.
+                <span class="block mt-1">Sources mentionnées dans le document : Cour des comptes, INAMI, ONEM et SPF Emploi.</span>
+            </aside>
+
     </header>
 
     <!-- Main Content Container -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <main id="contenu-principal" class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8" aria-labelledby="page-title">
+        <nav aria-label="Fil d’Ariane" class="text-xs text-slate-500">
+            <ol class="flex flex-wrap items-center gap-2">
+                <li><a href="/" class="hover:text-slate-900 underline-offset-2 hover:underline">Accueil</a></li>
+                <li aria-hidden="true">›</li>
+                <li aria-current="page">Malades de longue durée en Belgique</li>
+            </ol>
+        </nav>
 
         <!-- Top Executive KPI Ribbon -->
         <section class="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -138,9 +218,9 @@
         </section>
 
         <!-- TAB 1: OVERVIEW & MACRO BUDGET -->
-        <section id="tab-overview" class="tab-content space-y-6">
+        <article id="tab-overview" class="tab-content space-y-6" aria-labelledby="overview-title">
             <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
-                <h2 class="text-xl font-bold text-slate-900 border-b pb-3 border-slate-100 flex items-center gap-2">
+                <h2 class="text-xl font-bold text-slate-900 border-b pb-3 border-slate-100 flex items-center gap-2" id="overview-title" id="faille1-title" id="faille2-title" id="perverse-title" id="simulators-title" id="recommendations-title">
                     <span>📊</span> Cadre du Conclave Budgétaire vs Réalité des Chiffres
                 </h2>
                 <p class="text-slate-600 text-sm leading-relaxed">
@@ -161,7 +241,7 @@
                         <h3 class="text-base font-bold text-slate-900 mb-1">Objectifs d'Économies d'Incapacité (INAMI)</h3>
                         <p class="text-xs text-slate-500 mb-4">Évolution des projections officielles d'économies brutes (2022 - 2024)</p>
                         <div class="chart-container">
-                            <canvas id="chartSavingsTarget"></canvas>
+                            <canvas id="chartSavingsTarget" role="img" aria-label="Graphique des économies INAMI projetées en millions d’euros pour 2022, 2023, 2024 et le cumul projeté."></canvas>
                         </div>
                     </div>
                     <p class="text-xs text-slate-500 italic mt-4 text-center">Source: Documents budgétaires fédéraux & Rapports de la Cour des Comptes.</p>
@@ -173,7 +253,7 @@
                         <h3 class="text-base font-bold text-slate-900 mb-1">Décomposition du Rendement Budgétaire Réel</h3>
                         <p class="text-xs text-slate-500 mb-4">Comparaison entre économies affichées et fuites interdépartementales</p>
                         <div class="chart-container">
-                            <canvas id="chartRealImpact"></canvas>
+                            <canvas id="chartRealImpact" role="img" aria-label="Graphique comparant les gains bruts INAMI, les transferts vers l’ONEM et les CPAS, et le rendement net réel."></canvas>
                         </div>
                     </div>
                     <div class="bg-slate-50 p-3 rounded-lg text-xs text-slate-600 mt-4 border border-slate-200">
@@ -181,10 +261,10 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </article>
 
         <!-- TAB 2: FAILLE 1 - VASES COMMUNICANTS -->
-        <section id="tab-faille1" class="tab-content hidden space-y-6">
+        <section id="tab-faille1" class="tab-content hidden space-y-6" aria-labelledby="faille1-title">
             <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
                 <h2 class="text-xl font-bold text-slate-900 border-b pb-3 border-slate-100 flex items-center gap-2">
                     <span>🔄</span> La Première Faille : L'Effet de Vases Communicants Macroéconomique
@@ -243,7 +323,7 @@
                         <h3 class="text-sm font-bold text-slate-800 mb-1">Chute du Taux de Retour à l'Emploi selon la Durée</h3>
                         <p class="text-xs text-slate-500 mb-3">Plus l'incapacité dure, plus la réintégration échoue</p>
                         <div class="chart-container">
-                            <canvas id="chartReturnRate"></canvas>
+                            <canvas id="chartReturnRate" role="img" aria-label="Graphique du taux de reprise du travail selon la durée de l’incapacité."></canvas>
                         </div>
                     </div>
                 </div>
@@ -251,7 +331,7 @@
         </section>
 
         <!-- TAB 3: FAILLE 2 - PIÈGE DES 2 ANS (ART 11TER) -->
-        <section id="tab-faille2" class="tab-content hidden space-y-6">
+        <section id="tab-faille2" class="tab-content hidden space-y-6" aria-labelledby="faille2-title">
             <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
                 <h2 class="text-xl font-bold text-slate-900 border-b pb-3 border-slate-100 flex items-center gap-2">
                     <span>⚖️</span> La Seconde Faille : L'Écueil Juridique du Contrat de Remplacement
@@ -267,13 +347,13 @@
 
                 <!-- Legal Notice Matrix Table -->
                 <div class="pt-4 space-y-3">
-                    <h3 class="text-base font-bold text-slate-900">Coûts de Licenciement Imposés à l'Employeur (Loi Statut Unique 2013)</h3>
+                    <h3 id="notice-table-caption" class="text-base font-bold text-slate-900">Coûts de Licenciement Imposés à l'Employeur (Loi Statut Unique 2013)</h3>
                     <p class="text-xs text-slate-600">
                         Lorsqu'un malade réintègre son poste après 28 mois, l'employeur a désormais DEUX salariés en CDI pour un seul poste. Il doit licencier le remplaçant et lui verser son préavis légal :
                     </p>
 
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left text-xs text-slate-700 border border-slate-200 rounded-lg overflow-hidden">
+                        <table aria-describedby="notice-table-caption" class="w-full text-left text-xs text-slate-700 border border-slate-200 rounded-lg overflow-hidden">
                             <thead class="bg-slate-100 text-slate-900 font-bold uppercase text-[10px] tracking-wider border-b border-slate-200">
                                 <tr>
                                     <th class="p-3">Ancienneté du Remplaçant</th>
@@ -315,14 +395,14 @@
                 <div class="pt-4">
                     <h3 class="text-base font-bold text-slate-900 mb-2">Visualisation des Semaines de Préavis Dues au Remplaçant</h3>
                     <div class="chart-container">
-                        <canvas id="chartNoticeCosts"></canvas>
+                        <canvas id="chartNoticeCosts" role="img" aria-label="Graphique des semaines de préavis dues selon l’ancienneté du remplaçant."></canvas>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- TAB 4: PERVERSE EFFECTS & RH ARBITRAGE -->
-        <section id="tab-perverse" class="tab-content hidden space-y-6">
+        <section id="tab-perverse" class="tab-content hidden space-y-6" aria-labelledby="perverse-title">
             <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
                 <h2 class="text-xl font-bold text-slate-900 border-b pb-3 border-slate-100 flex items-center gap-2">
                     <span>⚠️</span> Effets Pervers, "Prime à l'Éviction" & Surcharge
@@ -370,7 +450,7 @@
         </section>
 
         <!-- TAB 5: SIMULATORS (Interactive Section) -->
-        <section id="tab-simulators" class="tab-content hidden space-y-6">
+        <section id="tab-simulators" class="tab-content hidden space-y-6" aria-labelledby="simulators-title">
             <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-6">
                 <div>
                     <h2 class="text-xl font-bold text-slate-900 border-b pb-3 border-slate-100 flex items-center gap-2">
@@ -396,7 +476,7 @@
                             <div class="space-y-3 mt-4 text-xs">
                                 <div>
                                     <label class="block font-semibold text-slate-700 mb-1">Salaire Mensuel Brut du Remplaçant (€)</label>
-                                    <input type="number" id="sim1-salary" value="3500" step="100" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                                    <input type="number" inputmode="decimal" min="0" id="sim1-salary" value="3500" step="100" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                                 </div>
                                 <div>
                                     <label class="block font-semibold text-slate-700 mb-1">Ancienneté du Remplaçant au retour du malade</label>
@@ -442,15 +522,15 @@
                             <div class="space-y-3 mt-4 text-xs">
                                 <div>
                                     <label class="block font-semibold text-slate-700 mb-1">Nombre de Malades Réactivés</label>
-                                    <input type="number" id="sim2-count" value="1000" step="100" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                                    <input type="number" inputmode="numeric" min="0" id="sim2-count" value="1000" step="100" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-amber-500 focus:outline-none">
                                 </div>
                                 <div>
                                     <label class="block font-semibold text-slate-700 mb-1">Allocation INAMI Moyenne Mensuelle (€)</label>
-                                    <input type="number" id="sim2-inami" value="1600" step="50" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                                    <input type="number" inputmode="decimal" min="0" id="sim2-inami" value="1600" step="50" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-amber-500 focus:outline-none">
                                 </div>
                                 <div>
                                     <label class="block font-semibold text-slate-700 mb-1">Allocation Chômage (ONEM) du Remplaçant (€)</label>
-                                    <input type="number" id="sim2-onem" value="1350" step="50" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                                    <input type="number" inputmode="decimal" min="0" id="sim2-onem" value="1350" step="50" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-amber-500 focus:outline-none">
                                 </div>
                             </div>
                         </div>
@@ -477,7 +557,7 @@
         </section>
 
         <!-- TAB 6: STRUCTURAL RECOMMENDATIONS -->
-        <section id="tab-recommendations" class="tab-content hidden space-y-6">
+        <section id="tab-recommendations" class="tab-content hidden space-y-6" aria-labelledby="recommendations-title">
             <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-6">
                 <div>
                     <h2 class="text-xl font-bold text-slate-900 border-b pb-3 border-slate-100 flex items-center gap-2">
@@ -528,6 +608,24 @@
             </div>
         </section>
 
+
+        <noscript>
+            <section class="bg-amber-50 border border-amber-200 rounded-xl p-5" aria-labelledby="noscript-title">
+                <h2 id="noscript-title" class="text-lg font-bold text-slate-900">Version sans JavaScript</h2>
+                <p class="text-sm text-slate-700 mt-2">
+                    Cette page analyse la réintégration des malades de longue durée en Belgique sous trois angles :
+                    finances publiques (INAMI, ONEM et CPAS), droit du travail et contrats de remplacement,
+                    et effets économiques et organisationnels pour les employeurs.
+                </p>
+                <ul class="text-sm text-slate-700 mt-3 list-disc pl-5 space-y-1">
+                    <li>Objectifs budgétaires et rendement réel des économies liées à l’incapacité.</li>
+                    <li>Effet de vases communicants entre indemnités d’incapacité, chômage et aide sociale.</li>
+                    <li>Contrat de remplacement et limite de deux ans évoquée au titre de l’article 11ter.</li>
+                    <li>Coûts de préavis, arbitrages RH et effets sur le maintien du lien d’emploi.</li>
+                    <li>Quatre pistes de réforme présentées dans le dossier.</li>
+                </ul>
+            </section>
+        </noscript>
     </main>
 
     <!-- Footer -->
@@ -541,27 +639,34 @@
     <!-- JavaScript Application Logic -->
     <script>
         // Tab Navigation Functionality
-        function switchTab(tabId) {
-            // Hide all tab contents
+        function switchTab(tabId, updateHash = true) {
             const contents = document.querySelectorAll('.tab-content');
-            contents.forEach(el => el.classList.add('hidden'));
+            contents.forEach(el => {
+                el.classList.add('hidden');
+                el.setAttribute('aria-hidden', 'true');
+            });
 
-            // Show selected tab content
             const selected = document.getElementById('tab-' + tabId);
-            if (selected) selected.classList.remove('hidden');
+            if (selected) {
+                selected.classList.remove('hidden');
+                selected.setAttribute('aria-hidden', 'false');
+            }
 
-            // Update Navigation Button Styles
             const navButtons = document.querySelectorAll('.tab-btn');
             navButtons.forEach(btn => {
                 btn.classList.remove('text-amber-400', 'bg-slate-900', 'font-semibold', 'shadow-inner');
                 btn.classList.add('text-slate-300');
+                btn.removeAttribute('aria-current');
             });
 
             const activeBtn = document.getElementById('nav-' + tabId);
             if (activeBtn) {
                 activeBtn.classList.add('text-amber-400', 'bg-slate-900', 'font-semibold', 'shadow-inner');
                 activeBtn.classList.remove('text-slate-300');
+                activeBtn.setAttribute('aria-current', 'page');
             }
+
+            if (updateHash) history.replaceState(null, '', '#tab-' + tabId);
         }
 
         function scrollToSection(tabId) {
@@ -571,6 +676,9 @@
 
         // Initialize Charts when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
+            const hash = window.location.hash.replace('#tab-', '');
+            switchTab(['overview','faille1','faille2','perverse','simulators','recommendations'].includes(hash) ? hash : 'overview', false);
+
             initChartSavingsTarget();
             initChartRealImpact();
             initChartReturnRate();
