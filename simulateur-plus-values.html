@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="fr-BE">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulateur — taxe sur les plus-values — Regard</title>
+<meta name="description" content="Estimer l'impôt belge sur une plus-value d'actif financier : taux de 10 %, abattement de 10 000 €, cliquet au 31 décembre 2025 et barème progressif des participations substantielles. Calcul local, aucune donnée transmise.">
+<link rel="canonical" href="https://ouaisfieu.github.io/regard/simulateur-plus-values.html">
+<meta name="author" content="Claude (Anthropic)">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<meta name="theme-color" content="#f7f4ee" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#16161a" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Regard">
+<meta property="og:locale" content="fr_BE">
+<meta property="og:title" content="Simulateur — taxe sur les plus-values — Regard">
+<meta property="og:description" content="Estimer l'impôt belge sur une plus-value d'actif financier : taux de 10 %, abattement de 10 000 €, cliquet au 31 décembre 2025 et barème progressif des participations substantielles. Calcul local, aucune donnée transmise.">
+<meta property="og:url" content="https://ouaisfieu.github.io/regard/simulateur-plus-values.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Simulateur — taxe sur les plus-values — Regard">
+<meta name="twitter:description" content="Estimer l'impôt belge sur une plus-value d'actif financier : taux de 10 %, abattement de 10 000 €, cliquet au 31 décembre 2025 et barème progressif des participations substantielles. Calcul local, aucune donnée transmise.">
+<meta name="dcterms.modified" content="2026-09-18">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="assets/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://ouaisfieu.github.io/regard/#site",
+      "name": "Regard",
+      "alternateName": "Regard — veille sociopolitique belge",
+      "url": "https://ouaisfieu.github.io/regard/",
+      "inLanguage": "fr-BE",
+      "description": "Lecture critique de la Belgique politique",
+      "publisher": {
+        "@id": "https://ouaisfieu.github.io/regard/#editor"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://ouaisfieu.github.io/regard/#editor",
+      "name": "Claude",
+      "description": "Assistant d'Anthropic. Rédaction et vérification des pages de Regard ; l'éditeur du site reste anonyme.",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Anthropic",
+        "url": "https://www.anthropic.com/"
+      }
+    },
+    {
+      "@type": "Article",
+      "@id": "https://ouaisfieu.github.io/regard/simulateur-plus-values.html#article",
+      "headline": "Simulateur — taxe belge sur les plus-values",
+      "description": "Estimer l'impôt dû sur une plus-value d'actif financier selon la loi belge du 3 avril 2026 : taux de 10 %, abattement de 10 000 €, cliquet au 31 décembre 2025, barème progressif des participations substantielles.",
+      "inLanguage": "fr-BE",
+      "isAccessibleForFree": true,
+      "datePublished": "2026-09-18",
+      "dateModified": "2026-09-18",
+      "articleSection": "Fiscalité",
+      "keywords": "taxe plus-values, meerwaardebelasting, step-up, abattement, participation substantielle, simulateur fiscal",
+      "author": {
+        "@id": "https://ouaisfieu.github.io/regard/#editor"
+      },
+      "publisher": {
+        "@id": "https://ouaisfieu.github.io/regard/#site"
+      },
+      "isPartOf": {
+        "@id": "https://ouaisfieu.github.io/regard/#site"
+      },
+      "mainEntityOfPage": "https://ouaisfieu.github.io/regard/simulateur-plus-values.html",
+      "spatialCoverage": {
+        "@type": "Country",
+        "name": "Belgique"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://ouaisfieu.github.io/regard/simulateur-plus-values.html#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Quel est le taux de la taxe belge sur les plus-values ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Le taux de base est de 10 % sur les plus-values réalisées par les personnes physiques dans le cadre de la gestion normale de leur patrimoine privé. Un taux de 33 % s'applique aux plus-values internes. Les participations supérieures à 20 % du capital relèvent d'un barème progressif de 0 % à 10 %."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Qu'est-ce que le mécanisme de cliquet (step-up) ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Pour les actifs acquis avant le 1er janvier 2026, la valeur de référence est celle du 31 décembre 2025. Si la valeur d'achat historique était supérieure, c'est elle qui est retenue. Le mécanisme évite de taxer des plus-values antérieures à l'entrée en vigueur de la loi, mais ne permet pas de déduire les moins-values historiques."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Quel est le montant de l'abattement annuel ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "10 000 euros de plus-value par contribuable et par an. La fraction non utilisée est reportable sur cinq ans, jusqu'à un cumul de 15 000 euros."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Ce simulateur remplace-t-il un conseil fiscal ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Non. Il applique les règles générales publiées et ignore les situations particulières, les régimes dérogatoires et les circonstances propres à chaque contribuable. Pour une situation réelle, consultez un professionnel."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Regard",
+          "item": "https://ouaisfieu.github.io/regard/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Simulateur"
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip" href="#contenu">Aller au contenu</a>
+
+<header class="masthead">
+  <div class="wrap masthead__inner">
+    <a class="brand" href="index.html">Regard<span>Belgique</span></a>
+    <nav class="nav" aria-label="Navigation principale">
+          <a href="dossiers/">Dossiers</a>
+          <a href="coalition.html">Coalition</a>
+          <a href="chronologie.html">Chronologie</a>
+          <a href="indicateurs.html">Indicateurs</a>
+          <a href="simulateur-plus-values.html" aria-current="page">Simulateur</a>
+          <a href="glossaire.html">Glossaire</a>
+          <a href="sources.html">Sources</a>
+          <a href="methode.html">Méthode</a>
+    </nav>
+    <button class="theme-toggle" type="button">Thème sombre</button>
+  </div>
+</header>
+
+    <nav class="crumbs" aria-label="Fil d'Ariane">
+      <div class="wrap"><ol>
+        <li><a href="index.html">Regard</a></li>
+        <li><span aria-current="page">Simulateur</span></li>
+      </ol></div>
+    </nav>
+
+    <div class="pagehead">
+      <div class="wrap">
+        <p class="kicker">Outil</p>
+        <h1>Simulateur : la taxe sur les plus-values</h1>
+        <p class="standfirst">Les règles de la loi du 3 avril 2026 appliquées à un cas concret — et la liste de ce que ce calcul ne sait pas faire.</p>
+        <p class="meta"><span>Rédigé et vérifié par Claude (Anthropic)</span><span>Révision du <time datetime="2026-09-18">18 septembre 2026</time></span><span><a href="dossiers/bataille-fiscale.html">Dossier 03</a></span></p>
+        </div>
+    </div>
+
+<main id="contenu">
+  <div class="wrap">
+    <div class="layout">
+<article class="prose">
+
+<aside class="box box--doubt">
+<h3>Ceci n'est pas un conseil fiscal</h3>
+<p>Ce simulateur est un outil pédagogique. Il applique les règles générales publiées de la loi du 3 avril 2026 et ignore tout le reste&nbsp;: régimes dérogatoires, conventions internationales, requalifications, situations particulières. Le résultat qu'il affiche est un ordre de grandeur, pas un montant dû. Pour une situation réelle, consultez un professionnel — comptable, conseiller fiscal ou avocat.</p><p>Aucune donnée saisie ici n'est transmise, enregistrée ni conservée&nbsp;: le calcul s'exécute entièrement dans votre navigateur.</p>
+</aside>
+
+<section aria-labelledby="regles">
+<h2 id="regles">Les règles appliquées</h2>
+
+<p>La taxe sur les plus-values des actifs financiers est entrée en vigueur le
+1<sup>er</sup> janvier 2026. La loi qui l'institue n'a été votée que le 3 avril et
+publiée au Moniteur belge le 21 avril&nbsp;: trois mois et demi d'application
+rétroactive d'un impôt dont le texte n'existait pas encore. Le régime transitoire
+qui en a découlé s'est refermé le 31 août 2026.</p>
+
+<div class="table-scroll">
+<table>
+<caption><b>Barème applicable selon la nature de l'actif</b><br>Loi du 3 avril 2026, publiée au Moniteur belge le 21 avril 2026, en vigueur rétroactivement au 1<sup>er</sup> janvier 2026. Ce tableau est un résumé&nbsp;: il ne couvre ni les cas particuliers, ni les règles applicables aux personnes morales.</caption>
+<thead><tr><th scope="col">Situation</th><th scope="col">Taux</th><th scope="col">Abattement annuel</th></tr></thead>
+<tbody>
+<tr><th scope="row">Actifs financiers ordinaires — actions, obligations, fonds, ETF, crypto-actifs, devises, branches 21, 23, 26 et 44</th><td>10 %</td><td>10 000 € (reportable 5 ans jusqu'à 15 000 €)</td></tr>
+<tr><th scope="row">Participation substantielle, soit plus de 20 % du capital</th><td>barème progressif de 0 % à 10 % par paliers</td><td>exonération jusqu'à 1 M € par période glissante de 5 ans</td></tr>
+<tr><th scope="row">Plus-value interne — cession à un holding contrôlé</th><td>33 %</td><td>sans objet</td></tr>
+<tr><th scope="row">Or d'investissement, immobilier, épargne-pension, comptes d'épargne, biens de collection</th><td>non imposé</td><td>sans objet</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>Le simulateur ci-dessous applique ces règles telles qu'elles sont publiées, et
+rien d'autre. Il ne connaît ni les régimes dérogatoires, ni les conventions
+préventives de la double imposition, ni les situations où la plus-value sort de la
+gestion normale du patrimoine privé.</p>
+</section>
+
+<section aria-labelledby="simulateur">
+<h2 id="simulateur">Le simulateur</h2>
+
+
+<form class="sim sim--nojs" id="sim" novalidate>
+  <h3 class="sim__title">Estimer l'impôt dû sur une plus-value</h3>
+
+  <div class="sim__grid">
+    <p class="sim__field sim__field--wide">
+      <label for="sim-type">Nature de l'actif</label>
+      <select id="sim-type" name="type">
+        <option value="standard">Actifs financiers ordinaires — taux de 10 %</option>
+        <option value="substantial">Participation substantielle (&gt; 20 % du capital)</option>
+        <option value="speculative">Plus-value interne ou montage spéculatif — 33 %</option>
+        <option value="exempt">Or, immobilier, épargne-pension, comptes d'épargne</option>
+      </select>
+    </p>
+
+    <p class="sim__field">
+      <label for="sim-buy">Valeur d'acquisition (€)</label>
+      <input type="number" id="sim-buy" name="buy" value="50000" min="0" step="100" inputmode="decimal">
+    </p>
+
+    <p class="sim__field">
+      <label for="sim-sell">Valeur de cession (€)</label>
+      <input type="number" id="sim-sell" name="sell" value="85000" min="0" step="100" inputmode="decimal">
+    </p>
+
+    <p class="sim__field">
+      <label for="sim-step">Valeur au 31 décembre 2025 (€)</label>
+      <input type="number" id="sim-step" name="step" value="60000" min="0" step="100" inputmode="decimal">
+      <span class="sim__hint">Mécanisme de cliquet. Laisser vide si l'actif a été
+      acquis en 2026 ou plus tard.</span>
+    </p>
+
+    <p class="sim__field">
+      <label for="sim-allow">Abattement encore disponible (€)</label>
+      <input type="number" id="sim-allow" name="allow" value="10000" min="0" max="15000" step="100" inputmode="decimal">
+      <span class="sim__hint">10 000 € par an, jusqu'à 15 000 € si les années
+      précédentes n'ont pas été utilisées.</span>
+    </p>
+  </div>
+
+  <p class="sim__actions">
+    <button type="submit" class="sim__go">Calculer</button>
+    <button type="reset" class="sim__reset">Réinitialiser</button>
+  </p>
+
+  <p class="sim__nojs-note">Le calcul s'exécute dans le navigateur et demande
+  JavaScript. Sans lui, le barème complet reste lisible dans les deux tableaux de
+  cette page.</p>
+
+  <output class="sim__out" id="sim-out" for="sim-type sim-buy sim-sell sim-step sim-allow" aria-live="polite">
+    <dl class="sim__results">
+      <div><dt>Plus-value brute</dt><dd id="sim-gross">—</dd></div>
+      <div><dt>Base imposable après cliquet</dt><dd id="sim-base">—</dd></div>
+      <div><dt>Abattement appliqué</dt><dd id="sim-exempt">—</dd></div>
+      <div class="sim__total"><dt>Impôt estimé</dt><dd id="sim-tax">—</dd></div>
+    </dl>
+    <p class="sim__note" id="sim-advice">Renseignez les montants, puis lancez le calcul.</p>
+  </output>
+</form>
+
+</section>
+
+<section aria-labelledby="bareme-progressif">
+<h2 id="bareme-progressif">Le barème progressif en détail</h2>
+
+<p>Les participations substantielles — plus de 20&nbsp;% du capital d'une entité —
+ne relèvent pas du taux de 10&nbsp;% mais d'un barème par paliers.</p>
+
+<div class="table-scroll">
+<table>
+<caption><b>Paliers applicables aux participations supérieures à 20 %</b><br>Le barème est progressif par tranche&nbsp;: chaque tranche est taxée à son propre taux, comme à l'impôt des personnes physiques.</caption>
+<thead><tr><th scope="col">Tranche de plus-value, par période glissante de cinq ans</th><th scope="col" class="num">Taux</th></tr></thead>
+<tbody>
+<tr><th scope="row">Jusqu'à 1 000 000 €</th><td class="num">0 %</td></tr>
+<tr><th scope="row">De 1 000 001 € à 2 500 000 €</th><td class="num">1,25 %</td></tr>
+<tr><th scope="row">De 2 500 001 € à 5 000 000 €</th><td class="num">2,50 %</td></tr>
+<tr><th scope="row">De 5 000 001 € à 10 000 000 €</th><td class="num">5,00 %</td></tr>
+<tr><th scope="row">Au-delà de 10 000 000 €</th><td class="num">10,00 %</td></tr>
+</tbody>
+</table>
+</div>
+
+<figure class="figure" id="fig-bareme">
+  <figcaption class="figure__title">Taux applicable aux plus-values sur participations supérieures à 20 %</figcaption>
+  <svg class="chart" viewBox="0 0 400 250" role="img" aria-labelledby="fig-bareme-t fig-bareme-d" preserveAspectRatio="xMidYMid meet">
+<title id="fig-bareme-t">Taux applicable aux plus-values sur participations supérieures à 20 %</title><desc id="fig-bareme-d">Barème progressif par tranche : 0 % jusqu&#x27;à un million d&#x27;euros, 1,25 % de un à 2,5 millions, 2,5 % de 2,5 à 5 millions, 5 % de 5 à 10 millions et 10 % au-delà de 10 millions.</desc>
+
+<line class="grid" x1="44" y1="210.0" x2="388" y2="210.0"/>
+<text class="tick tick--y" x="38" y="214.0">0 %</text>
+<line class="grid" x1="44" y1="163.0" x2="388" y2="163.0"/>
+<text class="tick tick--y" x="38" y="167.0">3 %</text>
+<line class="grid" x1="44" y1="116.0" x2="388" y2="116.0"/>
+<text class="tick tick--y" x="38" y="120.0">6 %</text>
+<line class="grid" x1="44" y1="69.0" x2="388" y2="69.0"/>
+<text class="tick tick--y" x="38" y="73.0">9 %</text>
+<line class="grid" x1="44" y1="22.0" x2="388" y2="22.0"/>
+<text class="tick tick--y" x="38" y="26.0">12 %</text>
+<g class="bar bar--s1"><rect x="55.4" y="210.0" width="46.0" height="1.5" rx="3"/><title>&lt; 1 M€ : 0 %</title></g>
+<text class="value value--s1" x="78.4" y="203.0" text-anchor="middle">0 %</text>
+<text class="tick" x="78.4" y="228" text-anchor="middle">&lt; 1 M€</text>
+<g class="bar bar--s1"><rect x="124.2" y="190.4" width="46.0" height="19.6" rx="3"/><title>1 – 2,5 M€ : 1,25 %</title></g>
+<text class="value value--s1" x="147.2" y="183.4" text-anchor="middle">1,25 %</text>
+<text class="tick" x="147.2" y="228" text-anchor="middle">1 – 2,5 M€</text>
+<g class="bar bar--s1"><rect x="193.0" y="170.8" width="46.0" height="39.2" rx="3"/><title>2,5 – 5 M€ : 2,5 %</title></g>
+<text class="value value--s1" x="216.0" y="163.8" text-anchor="middle">2,5 %</text>
+<text class="tick" x="216.0" y="228" text-anchor="middle">2,5 – 5 M€</text>
+<g class="bar bar--s1"><rect x="261.8" y="131.7" width="46.0" height="78.3" rx="3"/><title>5 – 10 M€ : 5 %</title></g>
+<text class="value value--s1" x="284.8" y="124.7" text-anchor="middle">5 %</text>
+<text class="tick" x="284.8" y="228" text-anchor="middle">5 – 10 M€</text>
+<g class="bar bar--s2"><rect x="330.6" y="53.3" width="46.0" height="156.7" rx="3"/><title>&gt; 10 M€ : 10 %</title></g>
+<text class="value value--s2" x="353.6" y="46.3" text-anchor="middle">10 %</text>
+<text class="tick" x="353.6" y="228" text-anchor="middle">&gt; 10 M€</text>
+</svg>
+  
+  <p class="figure__note">Le taux marginal ne rejoint celui du régime ordinaire — dix pour cent — qu'au delà de dix millions d'euros de plus-value par période glissante de cinq ans. En dessous d'un million, la participation substantielle est intégralement exonérée, là où l'épargnant ordinaire est taxé dès 10 000 euros de gain.</p>
+  <details class="figure__data">
+    <summary>Données du graphique</summary>
+    <table class="chart-table"><thead><tr><th scope="col">Tranche de plus-value</th><th scope="col">Taux applicable</th></tr></thead><tbody><tr><th scope="row">&lt; 1 M€</th><td>0 %</td></tr><tr><th scope="row">1 – 2,5 M€</th><td>1,25 %</td></tr><tr><th scope="row">2,5 – 5 M€</th><td>2,5 %</td></tr><tr><th scope="row">5 – 10 M€</th><td>5 %</td></tr><tr><th scope="row">&gt; 10 M€</th><td>10 %</td></tr></tbody></table>
+    <p class="note">Source&nbsp;: loi du 3 avril 2026, publiée au Moniteur belge le 21 avril 2026</p>
+  </details>
+</figure>
+
+<aside class="box box--sharp">
+<h3>L'asymétrie du barème</h3>
+<p>Un épargnant ordinaire est taxé à 10&nbsp;% dès que sa plus-value dépasse 10 000 euros dans l'année. Le détenteur d'une participation supérieure à 20&nbsp;% du capital ne paie rien jusqu'à un million d'euros par période de cinq ans, et n'atteint le taux de 10&nbsp;% qu'au-delà de dix millions. Cette progressivité est le compromis qui a rendu la mesure acceptable aux partenaires de la coalition&nbsp;; elle est aussi ce qui en limite le rendement.</p>
+</aside>
+</section>
+
+<section aria-labelledby="cliquet">
+<h2 id="cliquet">Le cliquet, et ce qu'il ne fait pas</h2>
+
+<p>Pour les actifs détenus avant 2026, la valeur de référence est celle du
+31 décembre 2025. Si la valeur d'acquisition historique était supérieure à celle du
+31 décembre 2025, c'est la valeur historique qui est retenue&nbsp;: le contribuable
+n'est pas taxé sur la simple récupération d'une moins-value.</p>
+
+<p>Le mécanisme est protecteur dans un sens et muet dans l'autre. Il évite de taxer
+un gain antérieur à la loi, mais il ne permet pas de déduire une moins-value
+historique. Un portefeuille qui a perdu de la valeur entre son acquisition et le
+31 décembre 2025, puis regagné une partie de ce terrain, sera taxé sur ce regain
+sans que la perte initiale n'entre jamais dans le calcul.</p>
+
+<aside class="box box--fact">
+<h3>Le régime transitoire, refermé le 31 août 2026</h3>
+<p>De janvier à août 2026, faute de base légale puis faute de circulaires, les banques ne pouvaient pas retenir l'impôt à la source. Trois branches coexistaient&nbsp;: <em>opt-out</em> (pas de retenue, déclaration intégrale par le contribuable en 2027), <em>opt-in</em> volontaire (la banque calcule et prélève rétroactivement), ou absence de choix, qui renvoyait à l'auto-déclaration. Depuis le 1<sup>er</sup> septembre, la retenue à la source est le régime par défaut.</p><p>L'effet de second ordre est rarement relevé&nbsp;: celui qui disposait d'un conseil fiscal a pu répartir ses opérations entre plusieurs établissements pour optimiser l'usage de son abattement. L'épargnant à portefeuille unique, lui, risque de l'avoir sous-utilisé.</p>
+</aside>
+</section>
+
+<section aria-labelledby="limites">
+<h2 id="limites">Ce que ce simulateur ne fait pas</h2>
+
+<aside class="box box--doubt">
+<h3>Les limites, énoncées</h3>
+<ul><li><strong>Un seul actif à la fois.</strong> L'abattement annuel s'apprécie sur l'ensemble des opérations de l'année&nbsp;; le champ « abattement déjà utilisé » sert à en tenir compte manuellement.</li><li><strong>Pas de compensation des moins-values.</strong> Les règles d'imputation entre opérations ne sont pas modélisées.</li><li><strong>Le barème progressif s'applique ici à la plus-value nette d'abattement.</strong> Sur les participations substantielles, l'articulation exacte entre l'abattement annuel et l'exonération du premier million dépend de la situation&nbsp;; le résultat affiché est donc une borne indicative.</li><li><strong>Aucune règle propre aux personnes morales.</strong> Les ASBL et fondations soumises à l'impôt des personnes morales relèvent du même taux mais pas des mêmes obligations déclaratives.</li><li><strong>Le rendement réel de la taxe n'est pas connu.</strong> Aucune première estimation de recettes n'était publique à la mi-septembre 2026.</li></ul>
+</aside>
+</section>
+
+<section aria-labelledby="reperes">
+<h2 id="reperes">Repères</h2>
+<p>Les chiffres de cette page proviennent des documents suivants. La page <a href="sources.html">Sources</a> donne la bibliographie complète.</p>
+<ul class="biblio">
+<li><a href="sources.html#fin-plusvalues">Taxe sur les plus-values</a> — SPF Finances. <a href="https://fin.belgium.be/fr/particuliers/declaration-impot/revenus/taxe-plus-values" rel="noopener nofollow" hreflang="fr">Consulter</a></li>
+<li><a href="sources.html#rsm-plusvalues">Loi introduisant une taxe sur les plus-values des actifs financiers</a> — RSM Belgium. <a href="https://www.rsm.global/belgium/fr/insights/loi-introduisant-une-taxe-sur-les-plus-values-des-actifs-financiers-principales-caracteristiques-et-considerations-pratiques" rel="noopener nofollow" hreflang="fr">Consulter</a></li>
+<li><a href="sources.html#deutschebank-pv">Nouvelle taxe sur les plus-values : informations essentielles</a> — Deutsche Bank Belgique. <a href="https://www.deutschebank.be/fr/actu-et-conseils/articles/nouvelle-taxe-plus-values.html" rel="noopener nofollow" hreflang="fr">Consulter</a></li>
+<li><a href="sources.html#lalibre-fiscalite">La fiscalité, cœur de la bataille politique et budgétaire qui s'annonce au fédéral</a> — La Libre Belgique, 2026-08-31. <a href="https://www.lalibre.be/belgique/politique-belge/2026/08/31/la-fiscalite-le-coeur-de-la-bataille-politique-et-budgetaire-qui-sannonce-au-federal-le-mr-sera-a-nouveau-mis-sous-pression-KHIXAFEGXVEZNAAYVJHKBAPGXY/" rel="noopener nofollow" hreflang="fr">Consulter</a></li>
+<li><a href="sources.html#forumfuture-ipp">Réforme fiscale belge 2026-2030 : ce que change la réforme de l'IPP</a> — Forum for the Future. <a href="https://blog.forumforthefuture.be/fr/article/reforme-fiscale-belge-2026-2030-ce-que-change-la-reforme-ipp-pour-le-travailleur-la-famille-et-lindependant/31257" rel="noopener nofollow" hreflang="fr">Consulter</a></li>
+</ul>
+</section>
+</article>
+    </div>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__grid">
+        <div>
+          <h2>Le site</h2>
+          <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="dossiers/">Les douze dossiers</a></li>
+            <li><a href="coalition.html">La coalition</a></li>
+            <li><a href="a-propos.html">À propos</a></li>
+            <li><a href="methode.html">Méthode et corrections</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Les données</h2>
+          <ul>
+            <li><a href="chronologie.html">Chronologie 2024-2028</a></li>
+            <li><a href="indicateurs.html">Tableaux d'indicateurs</a></li>
+            <li><a href="simulateur-plus-values.html">Simulateur plus-values</a></li>
+            <li><a href="glossaire.html">Glossaire</a></li>
+            <li><a href="sources.html">Bibliographie</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Signature</h2>
+          <p>Pages rédigées et vérifiées par <strong>Claude&nbsp;(Anthropic)</strong>.
+          L'éditeur du site reste anonyme.</p>
+          <p class="note">Dernière révision&nbsp;: <time datetime="2026-09-18">18 septembre 2026</time>.</p>
+        </div>
+    </div>
+    <p class="colophon">Regard est un site statique&nbsp;: du HTML écrit à la main, une
+    feuille de style, un fichier de script. Pas de build, pas de framework, pas de
+    traceur, pas de cookie, pas de flux&nbsp;RSS. Les chiffres cités renvoient aux
+    sources primaires listées sur la page <a href="sources.html">Sources</a>&nbsp;;
+    les écarts avec les documents de travail sont consignés sur la page
+    <a href="methode.html">Méthode</a>.</p>
+  </div>
+</footer>
+
+<script src="assets/app.js" defer></script>
+</body>
+</html>

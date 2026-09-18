@@ -1,0 +1,14 @@
+{
+  "name": "Regard — veille sociopolitique belge",
+  "short_name": "Regard",
+  "description": "Lecture critique de la Belgique politique.",
+  "lang": "fr-BE",
+  "start_url": "./",
+  "scope": "./",
+  "display": "minimal-ui",
+  "background_color": "#f7f4ee",
+  "theme_color": "#f7f4ee",
+  "icons": [
+    { "src": "assets/icon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}
